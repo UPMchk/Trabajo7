@@ -117,7 +117,7 @@ class ExerciseActivity : AppCompatActivity() {
         tvInstructions.text = instructions
         tvScore.text = "Result: -"
         tvGrade.text = "Grado: -"
-        tvScaleInfo.text = "0–8 Leve | 9–16 Moderado | 17–24 Avanzado | 25–32 Severo"
+        tvScaleInfo.text = "0–8 mild | 9–16 Moderate | 17–24 Advanced | 25–32 Severe"
         pbScale.progress = 0
         
         ensureMicPermission()
@@ -255,7 +255,7 @@ class ExerciseActivity : AppCompatActivity() {
         return when (score) {
             in 0..8 -> "Mild"
             in 9..16 -> "Moderate"
-            in 17..24 -> "Avanced"
+            in 17..24 -> "Advanced"
             in 25..32 -> "Severe"
             else -> "Unknown"
         }
