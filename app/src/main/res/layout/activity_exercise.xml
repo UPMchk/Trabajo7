@@ -72,6 +72,32 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/tvGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Grado: -"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        
+        <ProgressBar
+            android:id="@+id/pbScale"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:max="32"
+            android:progress="0" />
+        
+        <TextView
+            android:id="@+id/tvScaleInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="0–8 Mild | 9–16 Moderate | 17–24 Avanced | 25–32 Severe"
+            android:textSize="14sp" />
+
         <Button
             android:id="@+id/btnStart"
             android:layout_width="match_parent"
