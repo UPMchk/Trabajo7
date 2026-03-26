@@ -27,7 +27,10 @@ class ExerciseActivity : AppCompatActivity() {
     private lateinit var tvVolume: TextView
     private lateinit var tvStatus: TextView
     private lateinit var tvScore: TextView
+    private lateinit var tvGrade: TextView
+    private lateinit var tvScaleInfo: TextView
     private lateinit var pbVolume: ProgressBar
+    private lateinit var pbScale: ProgressBar
     private lateinit var btnStart: Button
     private lateinit var btnStop: Button
 
@@ -97,7 +100,10 @@ class ExerciseActivity : AppCompatActivity() {
         tvVolume = findViewById(R.id.tvVolume)
         tvStatus = findViewById(R.id.tvStatus)
         tvScore = findViewById(R.id.tvScore)
+        tvGrade = findViewById(R.id.tvGrade)
+        tvScaleInfo = findViewById(R.id.tvScaleInfo)
         pbVolume = findViewById(R.id.pbVolume)
+        pbScale = findViewById(R.id.pbScale)
         btnStart = findViewById(R.id.btnStart)
         btnStop = findViewById(R.id.btnStop)
 
@@ -110,7 +116,10 @@ class ExerciseActivity : AppCompatActivity() {
         tvUserId.text = "User: $userId"
         tvInstructions.text = instructions
         tvScore.text = "Result: -"
-
+        tvGrade.text = "Grado: -"
+        tvScaleInfo.text = "0–8 Leve | 9–16 Moderado | 17–24 Avanzado | 25–32 Severo"
+        pbScale.progress = 0
+        
         ensureMicPermission()
 
         btnStart.setOnClickListener {
@@ -161,9 +170,11 @@ class ExerciseActivity : AppCompatActivity() {
         }
 
         pbVolume.progress = 0
+        pbScale.progress = 0
         tvVolume.text = "Current level: 0 / 32767"
         tvTimer.text = "Time: 0.0 / 10.0 s"
         tvScore.text = "Result: -"
+        tvGrade.text = "Grade: -"
         tvStatus.text = "Recording..."
 
         btnStart.isEnabled = false
@@ -204,6 +215,8 @@ class ExerciseActivity : AppCompatActivity() {
             file.delete()
             tvStatus.text = "Recording too short. Please repeat."
             tvScore.text = "Result: -"
+            tvGrade.text = "Grado: -"
+            pbScale.progress = 0
             return
         }
 
@@ -211,6 +224,8 @@ class ExerciseActivity : AppCompatActivity() {
             file.delete()
             tvStatus.text = "Sound level too low. Please repeat the recording."
             tvScore.text = "Result: -"
+            tvGrade.text = "Grade: -"
+            pbScale.progress = 0
             return
         }
 
@@ -218,19 +233,34 @@ class ExerciseActivity : AppCompatActivity() {
             file.delete()
             tvStatus.text = "Audio may be saturated. Please repeat the recording."
             tvScore.text = "Result: -"
+            tvGrade.text = "Grade: -"
+            pbScale.progress = 0
             return
         }
 
         val result = analyzeRecording(file, exerciseCode)
-
-        tvStatus.text = "Recording saved:\n${file.name}"
+        val grade = getNeuroGrade(result)
+        
+        tvStatus.text = "Grabación guardada:\n${file.name}"
         tvScore.text = "Result: $result / 32"
+        tvGrade.text = "Grade: $grade"
+        pbScale.progress = result
     }
 
     private fun analyzeRecording(audioFile: File, exerciseCode: String): Int {
         return (0..32).random()
     }
 
+    private fun getNeuroGrade(score: Int): String {
+        return when (score) {
+            in 0..8 -> "Leve"
+            in 9..16 -> "Moderado"
+            in 17..24 -> "Avanzado"
+            in 25..32 -> "Severo"
+            else -> "Desconocido"
+        }
+    }
+    
     override fun onDestroy() {
         super.onDestroy()
         meterHandler.removeCallbacks(meterRunnable)
