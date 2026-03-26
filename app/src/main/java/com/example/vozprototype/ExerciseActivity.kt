@@ -241,7 +241,7 @@ class ExerciseActivity : AppCompatActivity() {
         val result = analyzeRecording(file, exerciseCode)
         val grade = getNeuroGrade(result)
         
-        tvStatus.text = "Grabación guardada:\n${file.name}"
+        tvStatus.text = "Recording saved:\n${file.name}"
         tvScore.text = "Result: $result / 32"
         tvGrade.text = "Grade: $grade"
         pbScale.progress = result
@@ -253,11 +253,11 @@ class ExerciseActivity : AppCompatActivity() {
 
     private fun getNeuroGrade(score: Int): String {
         return when (score) {
-            in 0..8 -> "Leve"
-            in 9..16 -> "Moderado"
-            in 17..24 -> "Avanzado"
-            in 25..32 -> "Severo"
-            else -> "Desconocido"
+            in 0..8 -> "Mild"
+            in 9..16 -> "Moderate"
+            in 17..24 -> "Avanced"
+            in 25..32 -> "Severe"
+            else -> "Unknown"
         }
     }
     
